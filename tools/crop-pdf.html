@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Crop PDF pages to a selected area. Free, fast, and secure online Crop PDF tool. No installation or registration required."
+  /><title>Crop PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <style>
+    .options-container {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      background: #222;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .options-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .margin-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .margin-inputs input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Crop PDF</h1>
+      <p>Crop PDF pages by specifying margins.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Upload your PDF to start cropping.</p>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+        <label for="fileInput" class="file-label">Choose PDF</label>
+      </div>
+      <div id="optionsContainer" class="options-container">
+        <p style="color: #10b981; margin-bottom: 15px" id="fileNameDisplay"></p>
+        <p style="color: #ccc; margin-bottom: 15px; font-size: 0.9rem">
+          Enter margins to crop from each side (in points, e.g., 36 for 0.5
+          inch):
+        </p>
+        <div class="margin-inputs">
+          <div>
+            <label for="marginTop">Top Margin:</label>
+            <input type="number" id="marginTop" value="36" min="0" />
+          </div>
+          <div>
+            <label for="marginBottom">Bottom Margin:</label>
+            <input type="number" id="marginBottom" value="36" min="0" />
+          </div>
+          <div>
+            <label for="marginLeft">Left Margin:</label>
+            <input type="number" id="marginLeft" value="36" min="0" />
+          </div>
+          <div>
+            <label for="marginRight">Right Margin:</label>
+            <input type="number" id="marginRight" value="36" min="0" />
+          </div>
+        </div>
+      </div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Crop PDF
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Crop PDF Tool?</h2>
+      <p>
+        The <strong>Crop PDF</strong> is a free online utility designed to help
+        you crop pdf pages to a selected area. With a user-friendly interface,
+        this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Crop PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Crop PDF</h2>
+      <p>
+        Using our <strong>Crop PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Crop PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Crop PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const fileInput = document.getElementById("fileInput"),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg"),
+      optionsContainer = document.getElementById("optionsContainer"),
+      fileNameDisplay = document.getElementById("fileNameDisplay");
+    let currentFile = null;
+    (fileInput.addEventListener("change", (t) => {
+      t.target.files.length > 0 &&
+        ((currentFile = t.target.files[0]),
+        (fileNameDisplay.textContent = "Selected: " + currentFile.name),
+        (optionsContainer.style.display = "block"),
+        (actionBtn.style.display = "inline-block"));
+    }),
+      actionBtn.addEventListener("click", async () => {
+        if (currentFile) {
+          ((statusMsg.textContent = "Cropping PDF... Please wait."),
+            (statusMsg.style.color = "var(--text-color)"),
+            (actionBtn.disabled = !0));
+          try {
+            const t = parseInt(document.getElementById("marginTop").value) || 0,
+              e = parseInt(document.getElementById("marginBottom").value) || 0,
+              n = parseInt(document.getElementById("marginLeft").value) || 0,
+              a = parseInt(document.getElementById("marginRight").value) || 0,
+              { PDFDocument: l } = PDFLib,
+              o = await currentFile.arrayBuffer(),
+              s = await l.load(o);
+            s.getPages().forEach((l) => {
+              const { width: o, height: s } = l.getSize(),
+                i = n,
+                c = e,
+                r = o - n - a,
+                d = s - t - e;
+              r > 0 && d > 0 && l.setCropBox(i, c, r, d);
+            });
+            const i = await s.save(),
+              c = new Blob([i], { type: "application/pdf" }),
+              r = document.createElement("a");
+            ((r.href = URL.createObjectURL(c)),
+              (r.download = "cropped_" + currentFile.name),
+              r.click(),
+              (statusMsg.textContent = "PDF Cropped successfully!"),
+              (statusMsg.style.color = "#10b981"));
+          } catch (t) {
+            (console.error(t),
+              (statusMsg.textContent = "Error: " + t.message),
+              (statusMsg.style.color = "#ef4444"));
+          } finally {
+            actionBtn.disabled = !1;
+          }
+        }
+      }));
+  </script>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Generate random numbers within a range. Free, fast, and secure online Random Number Generator tool. No installation or registration required."
+  /><title>Random Number Generator - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Random Number Generator</h1>
+      <p>Generate random numbers within a range.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem">
+        <div class="form-group" style="flex: 1">
+          <label>Min:</label>
+          <input type="number" id="minVal" class="form-control" value="1" />
+        </div>
+        <div class="form-group" style="flex: 1">
+          <label>Max:</label>
+          <input type="number" id="maxVal" class="form-control" value="100" />
+        </div>
+      </div>
+      <button id="genBtn" class="btn btn-block">Generate</button>
+      <p
+        id="statusMsg"
+        style="color: #ff453a; text-align: center; margin-top: 1rem"
+      ></p>
+      <div style="text-align: center; margin-top: 2rem">
+        <h2 id="result" style="font-size: 4rem; color: var(--primary-color)">
+          0
+        </h2>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Random Number Generator Tool?</h2>
+      <p>
+        The <strong>Random Number Generator</strong> is a free online utility
+        designed to help you generate random numbers within a range. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Random Number Generator provides a
+        reliable and secure solution.
+      </p>
+      <h2>How to Use Random Number Generator</h2>
+      <p>
+        Using our <strong>Random Number Generator</strong> is incredibly simple.
+        Just follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Random Number Generator?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Random Number Generator</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    document.getElementById("genBtn").addEventListener("click", () => {
+      document.getElementById("statusMsg").textContent = "";
+      const t = parseInt(document.getElementById("minVal").value),
+        e = parseInt(document.getElementById("maxVal").value);
+      if (t > e)
+        return void (document.getElementById("statusMsg").textContent =
+          "Min cannot be greater than Max");
+      const n = Math.floor(Math.random() * (e - t + 1)) + t;
+      document.getElementById("result").textContent = n;
+    });
+  </script>
+</html>

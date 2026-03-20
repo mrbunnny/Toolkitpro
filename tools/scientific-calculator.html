@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Perform advanced mathematical calculations. Free, fast, and secure online Scientific Calculator tool. No installation or registration required."
+  /><title>Scientific Calculator - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Scientific Calculator</h1>
+      <p>Perform advanced mathematical calculations.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <input
+          id="calcDisplay"
+          class="form-control"
+          style="font-size: 2rem; text-align: right"
+          readonly="readonly"
+          value="0"
+        />
+      </div>
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 0.5rem;
+        "
+      >
+        <button class="btn" onclick="append('Math.sin(')">sin</button>
+        <button class="btn" onclick="append('Math.cos(')">cos</button>
+        <button class="btn" onclick="append('Math.tan(')">tan</button>
+        <button
+          class="btn"
+          onclick="clearDisplay()"
+          style="background-color: #ef4444"
+        >
+          C
+        </button>
+        <button class="btn" onclick="append('7')">7</button>
+        <button class="btn" onclick="append('8')">8</button>
+        <button class="btn" onclick="append('9')">9</button>
+        <button class="btn" onclick="append('/')">/</button>
+        <button class="btn" onclick="append('4')">4</button>
+        <button class="btn" onclick="append('5')">5</button>
+        <button class="btn" onclick="append('6')">6</button>
+        <button class="btn" onclick="append('*')">*</button>
+        <button class="btn" onclick="append('1')">1</button>
+        <button class="btn" onclick="append('2')">2</button>
+        <button class="btn" onclick="append('3')">3</button>
+        <button class="btn" onclick="append('-')">-</button>
+        <button class="btn" onclick="append('0')">0</button>
+        <button class="btn" onclick="append('.')">.</button>
+        <button
+          class="btn"
+          onclick="calculate()"
+          style="background-color: #10b981"
+        >
+          =
+        </button>
+        <button class="btn" onclick="append('+')">+</button>
+        <button class="btn" onclick="append('(')">(</button>
+        <button class="btn" onclick="append(')')">)</button>
+        <button class="btn" onclick="append('Math.PI')">π</button>
+        <button class="btn" onclick="append('**')">^</button>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Scientific Calculator Tool?</h2>
+      <p>
+        The <strong>Scientific Calculator</strong> is a free online utility
+        designed to help you perform advanced mathematical calculations. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Scientific Calculator provides a
+        reliable and secure solution.
+      </p>
+      <h2>How to Use Scientific Calculator</h2>
+      <p>
+        Using our <strong>Scientific Calculator</strong> is incredibly simple.
+        Just follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Scientific Calculator?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Scientific Calculator</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let display = document.getElementById("calcDisplay"),
+      expression = "";
+    function append(e) {
+      ("0" !== display.value ||
+        "." === e ||
+        e.startsWith("Math") ||
+        ((display.value = ""), (expression = "")),
+        (display.value += e.replace("Math.", "")),
+        (expression += e));
+    }
+    function clearDisplay() {
+      ((display.value = "0"), (expression = ""));
+    }
+    function calculate() {
+      try {
+        const result = eval(expression);
+        ((display.value = result), (expression = result.toString()));
+      } catch (e) {
+        ((display.value = "Error"), (expression = ""));
+      }
+    }
+  </script>
+</html>

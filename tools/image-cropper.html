@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Crop images to your desired aspect ratio. Free, fast, and secure online Image Cropper tool. No installation or registration required."
+  /><title>Image Cropper - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" /><link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+  <style>
+    .img-container {
+      max-width: 100%;
+      max-height: 60vh;
+      margin-bottom: 1rem;
+    }
+    .img-container img {
+      display: block;
+      max-width: 100%;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Image Cropper</h1>
+      <p>Crop images to your desired aspect ratio.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Select an image to crop.</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select Image
+        </button>
+      </div>
+      <div
+        id="cropControls"
+        style="display: none; margin-top: 2rem; text-align: left"
+      >
+        <div class="img-container">
+          <img id="imageToCrop" src="" alt="Picture" />
+        </div>
+        <div
+          style="
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+          "
+        >
+          <button
+            class="btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+            onclick="setAspectRatio(16 / 9)"
+          >
+            16:9
+          </button>
+          <button
+            class="btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+            onclick="setAspectRatio(4 / 3)"
+          >
+            4:3
+          </button>
+          <button
+            class="btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+            onclick="setAspectRatio(1)"
+          >
+            1:1
+          </button>
+          <button
+            class="btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+            onclick="setAspectRatio(2 / 3)"
+          >
+            2:3
+          </button>
+          <button
+            class="btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+            onclick="setAspectRatio(NaN)"
+          >
+            Free
+          </button>
+        </div>
+        <button id="cropBtn" class="btn btn-block">Crop Image</button>
+      </div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <h3 style="margin-bottom: 1rem; color: var(--text-color)">
+          Cropped Result:
+        </h3>
+        <img
+          id="croppedImage"
+          style="
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          "
+        />
+        <a id="downloadBtn" class="btn">Download Cropped Image</a>
+      </div>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Image Cropper Tool?</h2>
+      <p>
+        The <strong>Image Cropper</strong> is a free online utility designed to
+        help you crop images to your desired aspect ratio. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Image Cropper provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Image Cropper</h2>
+      <p>
+        Using our <strong>Image Cropper</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Image Cropper?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Image Cropper</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let cropper = null,
+      currentFileName = "cropped_image.png";
+    function setAspectRatio(e) {
+      cropper && cropper.setAspectRatio(e);
+    }
+    (document.getElementById("fileInput").addEventListener("change", (e) => {
+      const t = e.target.files[0];
+      if (t) {
+        currentFileName = "cropped_" + t.name;
+        const e = new FileReader();
+        ((e.onload = (e) => {
+          const t = document.getElementById("imageToCrop");
+          ((t.src = e.target.result),
+            (document.getElementById("cropControls").style.display = "block"),
+            (document.getElementById("result").style.display = "none"),
+            (document.getElementById("statusMsg").textContent = ""),
+            cropper && cropper.destroy(),
+            (cropper = new Cropper(t, {
+              aspectRatio: NaN,
+              viewMode: 1,
+              autoCropArea: 0.8,
+            })));
+        }),
+          e.readAsDataURL(t));
+      }
+    }),
+      document.getElementById("cropBtn").addEventListener("click", () => {
+        if (!cropper) return;
+        const e = cropper.getCroppedCanvas();
+        if (e) {
+          const t = e.toDataURL("image/png");
+          document.getElementById("croppedImage").src = t;
+          const n = document.getElementById("downloadBtn");
+          ((n.href = t),
+            (n.download = currentFileName),
+            (document.getElementById("result").style.display = "block"),
+            (document.getElementById("statusMsg").textContent =
+              "Image cropped successfully!"),
+            (document.getElementById("statusMsg").className =
+              "status-msg success"));
+        }
+      }));
+  </script>
+</html>

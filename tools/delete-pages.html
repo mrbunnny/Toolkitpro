@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Remove specific pages from a PDF document. Free, fast, and secure online Delete Pages tool. No installation or registration required."
+  /><title>Delete Pages - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .page-item {
+      background: #222;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .page-item:hover {
+      border-color: #ef4444;
+    }
+    .page-item.deleted {
+      opacity: 0.5;
+      border-color: #ef4444;
+      background: #3f1010;
+    }
+    .page-item canvas {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #444;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    .page-number {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .delete-icon {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ef4444;
+      font-size: 40px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .page-item.deleted .delete-icon {
+      display: block;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Delete Pages</h1>
+      <p>Remove specific pages from a PDF document.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">
+          Upload your PDF and click on the pages you want to delete.
+        </p>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+        <label for="fileInput" class="file-label">Choose PDF</label>
+      </div>
+      <div id="pagesContainer" class="pages-grid"></div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Delete Selected Pages
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Delete Pages Tool?</h2>
+      <p>
+        The <strong>Delete Pages</strong> is a free online utility designed to
+        help you remove specific pages from a pdf document. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Delete Pages provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Delete Pages</h2>
+      <p>
+        Using our <strong>Delete Pages</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Delete Pages?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Delete Pages</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const fileInput = document.getElementById("fileInput"),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg"),
+      pagesContainer = document.getElementById("pagesContainer");
+    let currentPdfBytes = null,
+      originalPageCount = 0;
+    ((pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"),
+      fileInput.addEventListener("change", async (e) => {
+        if (e.target.files.length > 0) {
+          const t = e.target.files[0];
+          ((statusMsg.textContent = "Loading PDF pages..."),
+            (statusMsg.style.color = "#f59e0b"),
+            (pagesContainer.innerHTML = ""),
+            (actionBtn.style.display = "none"));
+          try {
+            const e = await t.arrayBuffer();
+            currentPdfBytes = e;
+            const n = await pdfjsLib.getDocument({ data: e }).promise;
+            originalPageCount = n.numPages;
+            for (let e = 1; e <= originalPageCount; e++) {
+              const t = await n.getPage(e),
+                a = t.getViewport({ scale: 0.5 }),
+                s = document.createElement("canvas"),
+                o = s.getContext("2d");
+              ((s.height = a.height),
+                (s.width = a.width),
+                await t.render({ canvasContext: o, viewport: a }).promise);
+              const l = document.createElement("div");
+              ((l.className = "page-item"),
+                l.setAttribute("data-page-index", e - 1),
+                (l.onclick = function () {
+                  l.classList.toggle("deleted");
+                }));
+              const c = document.createElement("div");
+              ((c.className = "delete-icon"), (c.innerHTML = "✕"));
+              const i = document.createElement("span");
+              ((i.className = "page-number"),
+                (i.textContent = e),
+                l.appendChild(s),
+                l.appendChild(c),
+                l.appendChild(i),
+                pagesContainer.appendChild(l));
+            }
+            ((statusMsg.textContent = "Click on the pages you want to delete."),
+              (statusMsg.style.color = "#10b981"),
+              (actionBtn.style.display = "inline-block"));
+          } catch (e) {
+            (console.error(e),
+              (statusMsg.textContent =
+                "Error loading PDF. Please try another file."),
+              (statusMsg.style.color = "#ef4444"));
+          }
+        }
+      }),
+      actionBtn.addEventListener("click", async () => {
+        if (!currentPdfBytes) return;
+        const e = pagesContainer.querySelectorAll(".page-item"),
+          t = [];
+        if (
+          (e.forEach((e) => {
+            e.classList.contains("deleted") ||
+              t.push(parseInt(e.getAttribute("data-page-index")));
+          }),
+          0 === t.length)
+        )
+          return (
+            (statusMsg.textContent =
+              "You cannot delete all pages. Please keep at least one."),
+            void (statusMsg.style.color = "#ef4444")
+          );
+        ((statusMsg.textContent = "Generating new PDF..."),
+          (statusMsg.style.color = "#f59e0b"),
+          (actionBtn.disabled = !0));
+        try {
+          const e = await PDFLib.PDFDocument.load(currentPdfBytes),
+            n = await PDFLib.PDFDocument.create();
+          (await n.copyPages(e, t)).forEach((e) => n.addPage(e));
+          const a = await n.save(),
+            s = new Blob([a], { type: "application/pdf" }),
+            o = URL.createObjectURL(s),
+            l = document.createElement("a");
+          ((l.href = o),
+            (l.download = "deleted_pages.pdf"),
+            document.body.appendChild(l),
+            l.click(),
+            document.body.removeChild(l),
+            URL.revokeObjectURL(o),
+            (statusMsg.textContent =
+              "Pages deleted and PDF downloaded successfully!"),
+            (statusMsg.style.color = "#10b981"));
+        } catch (e) {
+          (console.error(e),
+            (statusMsg.textContent = "Error processing PDF."),
+            (statusMsg.style.color = "#ef4444"));
+        } finally {
+          actionBtn.disabled = !1;
+        }
+      }));
+  </script>
+</html>

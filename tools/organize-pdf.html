@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Sort, add, and delete PDF pages. Free, fast, and secure online Organize PDF tool. No installation or registration required."
+  /><title>Organize PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  <style>
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .page-item {
+      background: #222;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: grab;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .page-item:active {
+      cursor: grabbing;
+    }
+    .page-item canvas {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #444;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    .page-number {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .delete-page-btn {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .delete-page-btn:hover {
+      background: #dc2626;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Organize PDF</h1>
+      <p>Sort, add, and delete PDF pages.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Upload your PDF to reorder or delete pages.</p>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+        <label for="fileInput" class="file-label">Choose PDF</label>
+      </div>
+      <div id="pagesContainer" class="pages-grid"></div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Save Organized PDF
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Organize PDF Tool?</h2>
+      <p>
+        The <strong>Organize PDF</strong> is a free online utility designed to
+        help you sort, add, and delete pdf pages. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Organize PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Organize PDF</h2>
+      <p>
+        Using our <strong>Organize PDF</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Organize PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Organize PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const fileInput = document.getElementById("fileInput"),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg"),
+      pagesContainer = document.getElementById("pagesContainer");
+    let currentPdfBytes = null,
+      originalPageCount = 0,
+      sortableInstance = null;
+    function updatePageNumbers() {
+      const e = pagesContainer.querySelectorAll(".page-item");
+      (e.forEach((e, t) => {
+        e.querySelector(".page-number").textContent = t + 1;
+      }),
+        0 === e.length &&
+          ((actionBtn.style.display = "none"),
+          (statusMsg.textContent =
+            "All pages deleted. Please upload a new PDF."),
+          (statusMsg.style.color = "#ef4444")));
+    }
+    ((pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"),
+      fileInput.addEventListener("change", async (e) => {
+        if (e.target.files.length > 0) {
+          const t = e.target.files[0];
+          ((statusMsg.textContent = "Loading PDF pages..."),
+            (statusMsg.style.color = "#f59e0b"),
+            (pagesContainer.innerHTML = ""),
+            (actionBtn.style.display = "none"));
+          try {
+            const e = await t.arrayBuffer();
+            currentPdfBytes = e;
+            const n = await pdfjsLib.getDocument({ data: e }).promise;
+            originalPageCount = n.numPages;
+            for (let e = 1; e <= originalPageCount; e++) {
+              const t = await n.getPage(e),
+                a = t.getViewport({ scale: 0.5 }),
+                s = document.createElement("canvas"),
+                o = s.getContext("2d");
+              ((s.height = a.height),
+                (s.width = a.width),
+                await t.render({ canvasContext: o, viewport: a }).promise);
+              const r = document.createElement("div");
+              ((r.className = "page-item"),
+                r.setAttribute("data-page-index", e - 1));
+              const l = document.createElement("button");
+              ((l.className = "delete-page-btn"),
+                (l.innerHTML = "✕"),
+                (l.onclick = function () {
+                  (r.remove(), updatePageNumbers());
+                }));
+              const c = document.createElement("span");
+              ((c.className = "page-number"),
+                (c.textContent = e),
+                r.appendChild(l),
+                r.appendChild(s),
+                r.appendChild(c),
+                pagesContainer.appendChild(r));
+            }
+            ((statusMsg.textContent =
+              "Drag and drop pages to reorder, or click ✕ to delete."),
+              (statusMsg.style.color = "#10b981"),
+              (actionBtn.style.display = "inline-block"),
+              sortableInstance && sortableInstance.destroy(),
+              (sortableInstance = new Sortable(pagesContainer, {
+                animation: 150,
+                ghostClass: "sortable-ghost",
+                onEnd: updatePageNumbers,
+              })));
+          } catch (e) {
+            (console.error(e),
+              (statusMsg.textContent =
+                "Error loading PDF. Please try another file."),
+              (statusMsg.style.color = "#ef4444"));
+          }
+        }
+      }),
+      actionBtn.addEventListener("click", async () => {
+        if (currentPdfBytes) {
+          ((statusMsg.textContent = "Generating organized PDF..."),
+            (statusMsg.style.color = "#f59e0b"),
+            (actionBtn.disabled = !0));
+          try {
+            const e = pagesContainer.querySelectorAll(".page-item"),
+              t = Array.from(e).map((e) =>
+                parseInt(e.getAttribute("data-page-index")),
+              ),
+              n = await PDFLib.PDFDocument.load(currentPdfBytes),
+              a = await PDFLib.PDFDocument.create();
+            (await a.copyPages(n, t)).forEach((e) => a.addPage(e));
+            const s = await a.save(),
+              o = new Blob([s], { type: "application/pdf" }),
+              r = URL.createObjectURL(o),
+              l = document.createElement("a");
+            ((l.href = r),
+              (l.download = "organized_document.pdf"),
+              document.body.appendChild(l),
+              l.click(),
+              document.body.removeChild(l),
+              URL.revokeObjectURL(r),
+              (statusMsg.textContent =
+                "PDF organized and downloaded successfully!"),
+              (statusMsg.style.color = "#10b981"));
+          } catch (e) {
+            (console.error(e),
+              (statusMsg.textContent = "Error organizing PDF."),
+              (statusMsg.style.color = "#ef4444"));
+          } finally {
+            actionBtn.disabled = !1;
+          }
+        }
+      }));
+  </script>
+</html>

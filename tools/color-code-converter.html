@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert between HEX, RGB, HSL, and more. Free, fast, and secure online Color Code Converter tool. No installation or registration required."
+  /><title>Color Code Converter - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Color Code Converter</h1>
+      <p>Convert between HEX and RGB.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          align-items: center;
+        "
+      >
+        <div
+          style="
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background-color: #3b82f6;
+          "
+          id="colorPreview"
+        ></div>
+        <div class="form-group" style="width: 100%">
+          <label>HEX Color:</label>
+          <input id="hexInput" class="form-control" value="#3b82f6" />
+        </div>
+        <div class="form-group" style="width: 100%">
+          <label>RGB Color:</label>
+          <input id="rgbInput" class="form-control" value="rgb(59, 130, 246)" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Color Code Converter Tool?</h2>
+      <p>
+        The <strong>Color Code Converter</strong> is a free online utility
+        designed to help you convert between hex, rgb, hsl, and more. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Color Code Converter provides a reliable
+        and secure solution.
+      </p>
+      <h2>How to Use Color Code Converter</h2>
+      <p>
+        Using our <strong>Color Code Converter</strong> is incredibly simple.
+        Just follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Color Code Converter?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Color Code Converter</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const hexInput = document.getElementById("hexInput"),
+      rgbInput = document.getElementById("rgbInput"),
+      preview = document.getElementById("colorPreview");
+    function hexToRgb(e) {
+      let t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
+      return t
+        ? `rgb(${parseInt(t[1], 16)}, ${parseInt(t[2], 16)}, ${parseInt(t[3], 16)})`
+        : null;
+    }
+    function rgbToHex(e, t, n) {
+      return "#" + ((1 << 24) | (e << 16) | (t << 8) | n).toString(16).slice(1);
+    }
+    (hexInput.addEventListener("input", (e) => {
+      const t = e.target.value,
+        n = hexToRgb(t);
+      n && ((rgbInput.value = n), (preview.style.backgroundColor = t));
+    }),
+      rgbInput.addEventListener("input", (e) => {
+        const t = e.target.value.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        if (t) {
+          const e = rgbToHex(parseInt(t[1]), parseInt(t[2]), parseInt(t[3]));
+          ((hexInput.value = e), (preview.style.backgroundColor = e));
+        }
+      }));
+  </script>
+</html>

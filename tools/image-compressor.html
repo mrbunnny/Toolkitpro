@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Compress JPG, PNG, and WebP images quickly. Free, fast, and secure online Image Compressor tool. No installation or registration required."
+  /><title>Image Compressor - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Image Compressor</h1>
+      <p>Compress JPG, PNG, and WebP images quickly.</p>
+    </div>
+    
+    <div class="tool-container">
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+        style="display: none"
+      />
+      <button
+        class="btn"
+        onclick="document.getElementById('fileInput').click()"
+      >
+        Select Image
+      </button>
+      <div
+        id="compressControls"
+        class="action-btn-wrapper"
+        style="display: none"
+      >
+        <div class="form-group">
+          <label>Compression Quality: <span id="qualityVal">80</span>%</label>
+          <input
+            type="range"
+            id="quality"
+            min="1"
+            max="100"
+            value="80"
+            class="form-control"
+            style="padding: 0; height: auto"
+          />
+        </div>
+        <button id="compressBtn" class="btn btn-block">Compress Image</button>
+      </div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <img
+          id="preview"
+          style="
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 14px;
+            margin-bottom: 1rem;
+            box-shadow: var(--glass-shadow);
+          "
+        /><br /><a
+          id="downloadBtn"
+          class="btn"
+          style="background-color: #10b981; width: 100%"
+          >Download Compressed Image</a
+        >
+      </div>
+      <p id="statusMsg" style="margin-top: 1rem; color: var(--text-light)"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Image Compressor Tool?</h2>
+      <p>
+        The <strong>Image Compressor</strong> is a free online utility designed
+        to help you compress jpg, png, and webp images quickly. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Image Compressor provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use Image Compressor</h2>
+      <p>
+        Using our <strong>Image Compressor</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Image Compressor?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Image Compressor</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let currentImg = new Image(),
+      fileName = "compressed.jpg";
+    (document.getElementById("quality").addEventListener("input", (e) => {
+      document.getElementById("qualityVal").textContent = e.target.value;
+    }),
+      document.getElementById("fileInput").addEventListener("change", (e) => {
+        const t = e.target.files[0];
+        if (!t) return;
+        fileName = t.name.replace(/\.[^/.]+$/, "") + "_compressed.jpg";
+        const n = new FileReader();
+        ((n.onload = (e) => {
+          ((currentImg.onload = () => {
+            ((document.getElementById("compressControls").style.display =
+              "block"),
+              (document.getElementById("result").style.display = "none"),
+              (document.getElementById("statusMsg").textContent =
+                `Original size: ${(t.size / 1024).toFixed(2)} KB`));
+          }),
+            (currentImg.src = e.target.result));
+        }),
+          n.readAsDataURL(t));
+      }),
+      document.getElementById("compressBtn").addEventListener("click", () => {
+        const e = parseInt(document.getElementById("quality").value) / 100,
+          t = document.createElement("canvas");
+        ((t.width = currentImg.width), (t.height = currentImg.height));
+        t.getContext("2d").drawImage(currentImg, 0, 0);
+        const n = t.toDataURL("image/jpeg", e),
+          d = Math.round((3 * (n.length - 23)) / 4);
+        ((document.getElementById("preview").src = n),
+          (document.getElementById("downloadBtn").href = n),
+          (document.getElementById("downloadBtn").download = fileName),
+          (document.getElementById("result").style.display = "block"));
+        const l = document
+          .getElementById("statusMsg")
+          .textContent.split("|")[0]
+          .trim();
+        document.getElementById("statusMsg").textContent =
+          `${l} | Compressed size: ${(d / 1024).toFixed(2)} KB`;
+      }));
+  </script>
+</html>

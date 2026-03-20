@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert Word documents to PDF format. Free, fast, and secure online Word to PDF tool. No installation or registration required."
+  /><title>Word to PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Word to PDF</h1>
+      <p>Convert Word documents (.docx) to PDF format.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Select a Word file (.docx) to convert.</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select Word File
+        </button>
+      </div>
+      <div
+        id="convertControls"
+        class="action-btn-wrapper"
+        style="display: none"
+      >
+        <p
+          id="fileNameDisplay"
+          style="margin-bottom: 1rem; text-align: center"
+        ></p>
+        <button id="convertBtn" class="btn btn-block">Convert to PDF</button>
+      </div>
+      <div
+        id="hiddenHtmlContainer"
+        style="
+          display: none;
+          padding: 20px;
+          text-align: left;
+          background: #fff;
+          color: #000;
+        "
+      ></div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <p id="statusMsg" class="status-msg"></p>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Word to PDF Tool?</h2>
+      <p>
+        The <strong>Word to PDF</strong> is a free online utility designed to
+        help you convert word documents to pdf format. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Word to PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Word to PDF</h2>
+      <p>
+        Using our <strong>Word to PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Word to PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Word to PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let currentFile = null;
+    (document.getElementById("fileInput").addEventListener("change", (e) => {
+      ((currentFile = e.target.files[0]),
+        currentFile &&
+          ((document.getElementById("fileNameDisplay").textContent =
+            "Selected: " + currentFile.name),
+          (document.getElementById("convertControls").style.display = "block"),
+          (document.getElementById("result").style.display = "none"),
+          (document.getElementById("statusMsg").textContent = "")));
+    }),
+      document
+        .getElementById("convertBtn")
+        .addEventListener("click", async () => {
+          if (currentFile) {
+            ((document.getElementById("result").style.display = "block"),
+              (document.getElementById("statusMsg").textContent =
+                "Converting... Please wait."),
+              (document.getElementById("statusMsg").className = "status-msg"));
+            try {
+              const e = await currentFile.arrayBuffer(),
+                t = (await mammoth.convertToHtml({ arrayBuffer: e })).value,
+                n = document.getElementById("hiddenHtmlContainer");
+              n.innerHTML = t;
+              const s = {
+                margin: 10,
+                filename: currentFile.name.replace(".docx", ".pdf"),
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+              };
+              (await html2pdf().set(s).from(n).save(),
+                (document.getElementById("statusMsg").textContent =
+                  "Converted successfully! Your download should start automatically."),
+                (document.getElementById("statusMsg").className =
+                  "status-msg success"),
+                (n.innerHTML = ""));
+            } catch (e) {
+              (console.error(e),
+                (document.getElementById("statusMsg").textContent =
+                  "Error converting file. Ensure it is a valid .docx file."),
+                (document.getElementById("statusMsg").className =
+                  "status-msg error"));
+            }
+          }
+        }));
+  </script>
+</html>

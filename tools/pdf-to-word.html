@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert PDF documents to editable Word files. Free, fast, and secure online PDF to Word tool. No installation or registration required."
+  /><title>PDF to Word - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/docx@8.2.3/build/index.js"></script>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>PDF to Word</h1>
+      <p>Convert PDF documents to editable Word files (Text Extraction).</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Select a PDF file to convert.</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select PDF File
+        </button>
+      </div>
+      <div
+        id="convertControls"
+        class="action-btn-wrapper"
+        style="display: none"
+      >
+        <p
+          id="fileNameDisplay"
+          style="margin-bottom: 1rem; text-align: center"
+        ></p>
+        <button id="convertBtn" class="btn btn-block">Convert to Word</button>
+      </div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <a id="downloadBtn" class="btn">Download Word Document</a>
+      </div>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the PDF to Word Tool?</h2>
+      <p>
+        The <strong>PDF to Word</strong> is a free online utility designed to
+        help you convert pdf documents to editable word files. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our PDF to Word provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use PDF to Word</h2>
+      <p>
+        Using our <strong>PDF to Word</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our PDF to Word?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>PDF to Word</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    let currentFile = null;
+    (document.getElementById("fileInput").addEventListener("change", (e) => {
+      ((currentFile = e.target.files[0]),
+        currentFile &&
+          ((document.getElementById("fileNameDisplay").textContent =
+            "Selected: " + currentFile.name),
+          (document.getElementById("convertControls").style.display = "block"),
+          (document.getElementById("result").style.display = "none"),
+          (document.getElementById("statusMsg").textContent = "")));
+    }),
+      document
+        .getElementById("convertBtn")
+        .addEventListener("click", async () => {
+          if (currentFile) {
+            ((document.getElementById("statusMsg").textContent =
+              "Extracting text and converting... Please wait."),
+              (document.getElementById("statusMsg").className = "status-msg"));
+            try {
+              const e = await currentFile.arrayBuffer(),
+                t = await pdfjsLib.getDocument({ data: e }).promise;
+              let n = [];
+              for (let e = 1; e <= t.numPages; e++) {
+                const s = await t.getPage(e),
+                  r = (await s.getTextContent()).items
+                    .map((e) => e.str)
+                    .join(" ");
+                n.push(r);
+              }
+              const { Document: s, Packer: r, Paragraph: a, TextRun: c } = docx,
+                o = new s({
+                  sections: [
+                    {
+                      properties: {},
+                      children: n.map(
+                        (e) =>
+                          new a({
+                            children: [new c(e)],
+                            spacing: { after: 200 },
+                          }),
+                      ),
+                    },
+                  ],
+                }),
+                l = await r.toBlob(o),
+                d = URL.createObjectURL(l),
+                m = document.getElementById("downloadBtn");
+              ((m.href = d),
+                (m.download = currentFile.name.replace(".pdf", ".docx")),
+                (document.getElementById("result").style.display = "block"),
+                (document.getElementById("statusMsg").textContent =
+                  "Converted successfully! (Note: Formatting may not be perfectly preserved)."),
+                (document.getElementById("statusMsg").className =
+                  "status-msg success"));
+            } catch (e) {
+              (console.error(e),
+                (document.getElementById("statusMsg").textContent =
+                  "Error converting PDF. The file might be corrupted or encrypted."),
+                (document.getElementById("statusMsg").className =
+                  "status-msg error"));
+            }
+          }
+        }));
+  </script>
+</html>

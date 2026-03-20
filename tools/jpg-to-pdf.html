@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert JPG images to PDF documents. Free, fast, and secure online JPG to PDF tool. No installation or registration required."
+  /><title>JPG to PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>JPG to PDF</h1>
+      <p>Convert JPG/PNG images to a single PDF document.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Select images to convert into a PDF.</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/jpeg, image/png"
+          multiple="multiple"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select Images
+        </button>
+      </div>
+      <div
+        id="fileList"
+        style="margin: 1rem 0; text-align: left; color: var(--text-color)"
+      ></div>
+      <button
+        id="convertBtn"
+        class="btn btn-block"
+        style="display: none; margin-bottom: 1rem"
+      >
+        Convert to PDF
+      </button>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <a id="downloadBtn" class="btn">Download PDF</a>
+      </div>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the JPG to PDF Tool?</h2>
+      <p>
+        The <strong>JPG to PDF</strong> is a free online utility designed to
+        help you convert jpg images to pdf documents. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our JPG to PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use JPG to PDF</h2>
+      <p>
+        Using our <strong>JPG to PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our JPG to PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>JPG to PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let selectedFiles = [];
+    (document.getElementById("fileInput").addEventListener("change", (e) => {
+      selectedFiles = Array.from(e.target.files);
+      const t = document.getElementById("fileList");
+      if (((t.innerHTML = ""), selectedFiles.length > 0)) {
+        let e = "<ul>";
+        (selectedFiles.forEach(
+          (t) => (e += `<li style="margin-bottom: 0.5rem;">${t.name}</li>`),
+        ),
+          (e += "</ul>"),
+          (t.innerHTML = e),
+          (document.getElementById("convertBtn").style.display = "block"),
+          (document.getElementById("result").style.display = "none"),
+          (document.getElementById("statusMsg").textContent = ""));
+      }
+    }),
+      document
+        .getElementById("convertBtn")
+        .addEventListener("click", async () => {
+          ((document.getElementById("statusMsg").textContent =
+            "Converting... Please wait."),
+            (document.getElementById("statusMsg").className = "status-msg"));
+          try {
+            const { PDFDocument: e } = PDFLib,
+              t = await e.create();
+            for (const e of selectedFiles) {
+              const n = await e.arrayBuffer();
+              let s;
+              if ("image/jpeg" === e.type || "image/jpg" === e.type)
+                s = await t.embedJpg(n);
+              else {
+                if ("image/png" !== e.type) continue;
+                s = await t.embedPng(n);
+              }
+              t.addPage([s.width, s.height]).drawImage(s, {
+                x: 0,
+                y: 0,
+                width: s.width,
+                height: s.height,
+              });
+            }
+            const n = await t.save(),
+              s = new Blob([n], { type: "application/pdf" }),
+              a = URL.createObjectURL(s),
+              l = document.getElementById("downloadBtn");
+            ((l.href = a),
+              (l.download = "converted_images.pdf"),
+              (document.getElementById("result").style.display = "block"),
+              (document.getElementById("statusMsg").textContent =
+                "Converted successfully!"),
+              (document.getElementById("statusMsg").className =
+                "status-msg success"));
+          } catch (e) {
+            (console.error(e),
+              (document.getElementById("statusMsg").textContent =
+                "Error converting images."),
+              (document.getElementById("statusMsg").className =
+                "status-msg error"));
+          }
+        }));
+  </script>
+</html>

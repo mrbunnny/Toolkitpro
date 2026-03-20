@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Extract images from PDF or convert pages to JPG. Free, fast, and secure online PDF to JPG tool. No installation or registration required."
+  /><title>PDF to JPG - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+  </script>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>PDF to JPG</h1>
+      <p>Convert PDF pages to JPG images.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Select a PDF file to convert.</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select PDF File
+        </button>
+      </div>
+      <div
+        id="convertControls"
+        class="action-btn-wrapper"
+        style="display: none"
+      >
+        <p
+          id="fileNameDisplay"
+          style="margin-bottom: 1rem; text-align: center"
+        ></p>
+        <div class="form-group">
+          <label>Image Quality: <span id="qualityVal">80</span>%</label>
+          <input
+            type="range"
+            id="quality"
+            min="1"
+            max="100"
+            value="80"
+            class="form-control"
+            style="padding: 0; height: auto"
+          />
+        </div>
+        <button id="convertBtn" class="btn btn-block">Convert to JPG</button>
+      </div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <h3 style="margin-bottom: 1rem">Converted Images:</h3>
+        <div
+          id="imagesContainer"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+          "
+        ></div>
+      </div>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the PDF to JPG Tool?</h2>
+      <p>
+        The <strong>PDF to JPG</strong> is a free online utility designed to
+        help you extract images from pdf or convert pages to jpg. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our PDF to JPG provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use PDF to JPG</h2>
+      <p>
+        Using our <strong>PDF to JPG</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our PDF to JPG?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>PDF to JPG</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let currentFile = null,
+      pdfDoc = null;
+    (document.getElementById("quality").addEventListener("input", (e) => {
+      document.getElementById("qualityVal").textContent = e.target.value;
+    }),
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", async (e) => {
+          if (((currentFile = e.target.files[0]), currentFile)) {
+            ((document.getElementById("statusMsg").textContent =
+              "Loading PDF..."),
+              (document.getElementById("statusMsg").className = "status-msg"));
+            try {
+              const e = await currentFile.arrayBuffer();
+              ((pdfDoc = await pdfjsLib.getDocument({ data: e }).promise),
+                (document.getElementById("fileNameDisplay").textContent =
+                  `Selected: ${currentFile.name} (${pdfDoc.numPages} pages)`),
+                (document.getElementById("convertControls").style.display =
+                  "block"),
+                (document.getElementById("result").style.display = "none"),
+                (document.getElementById("imagesContainer").innerHTML = ""),
+                (document.getElementById("statusMsg").textContent = ""));
+            } catch (e) {
+              (console.error(e),
+                (document.getElementById("statusMsg").textContent =
+                  "Error loading PDF. Ensure it is valid."),
+                (document.getElementById("statusMsg").className =
+                  "status-msg error"),
+                (document.getElementById("convertControls").style.display =
+                  "none"));
+            }
+          }
+        }),
+      document
+        .getElementById("convertBtn")
+        .addEventListener("click", async () => {
+          if (!pdfDoc) return;
+          const e = parseInt(document.getElementById("quality").value) / 100,
+            t = document.getElementById("imagesContainer");
+          ((t.innerHTML = ""),
+            (document.getElementById("statusMsg").textContent =
+              "Converting... Please wait."),
+            (document.getElementById("statusMsg").className = "status-msg"),
+            (document.getElementById("result").style.display = "block"));
+          try {
+            for (let n = 1; n <= pdfDoc.numPages; n++) {
+              const s = await pdfDoc.getPage(n),
+                a = s.getViewport({ scale: 2 }),
+                o = document.createElement("canvas"),
+                l = o.getContext("2d");
+              ((o.width = a.width),
+                (o.height = a.height),
+                (l.fillStyle = "white"),
+                l.fillRect(0, 0, o.width, o.height));
+              const d = { canvasContext: l, viewport: a };
+              await s.render(d).promise;
+              const c = o.toDataURL("image/jpeg", e),
+                m = document.createElement("div");
+              m.style.textAlign = "center";
+              const r = document.createElement("img");
+              ((r.src = c),
+                (r.style.width = "100%"),
+                (r.style.borderRadius = "8px"),
+                (r.style.marginBottom = "0.5rem"),
+                (r.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)"));
+              const g = document.createElement("a");
+              ((g.href = c),
+                (g.download = `page_${n}.jpg`),
+                (g.textContent = `Download Page ${n}`),
+                (g.className = "btn"),
+                (g.style.padding = "0.5rem"),
+                (g.style.fontSize = "0.8rem"),
+                (g.style.width = "100%"),
+                m.appendChild(r),
+                m.appendChild(g),
+                t.appendChild(m));
+            }
+            ((document.getElementById("statusMsg").textContent =
+              "Conversion complete!"),
+              (document.getElementById("statusMsg").className =
+                "status-msg success"));
+          } catch (e) {
+            (console.error(e),
+              (document.getElementById("statusMsg").textContent =
+                "Error converting PDF to images."),
+              (document.getElementById("statusMsg").className =
+                "status-msg error"));
+          }
+        }));
+  </script>
+</html>

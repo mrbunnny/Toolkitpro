@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert HTML entities back to characters. Free, fast, and secure online HTML Decoder tool. No installation or registration required."
+  /><title>HTML Decoder - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>HTML Decoder</h1>
+      <p>Convert HTML entities back to characters.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <label>Encoded HTML Input:</label>
+        <textarea
+          id="input"
+          class="form-control"
+          placeholder="Paste encoded HTML here..."
+          rows="6"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label>Decoded Output:</label>
+        <textarea
+          id="output"
+          class="form-control"
+          rows="6"
+          readonly="readonly"
+        ></textarea>
+      </div>
+      <button class="btn copy-btn" data-target="output">
+        Copy Decoded HTML
+      </button>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the HTML Decoder Tool?</h2>
+      <p>
+        The <strong>HTML Decoder</strong> is a free online utility designed to
+        help you convert html entities back to characters. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our HTML Decoder provides a reliable and secure solution.
+      </p>
+      <h2>How to Use HTML Decoder</h2>
+      <p>
+        Using our <strong>HTML Decoder</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our HTML Decoder?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>HTML Decoder</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    document.getElementById("input").addEventListener("input", (e) => {
+      const t = document.createElement("textarea");
+      ((t.innerHTML = e.target.value),
+        (document.getElementById("output").value = t.value));
+    });
+  </script>
+</html>

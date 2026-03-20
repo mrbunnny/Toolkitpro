@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Add text, shapes, and images to your PDF. Free, fast, and secure online Edit PDF tool. No installation or registration required."
+  /><title>Edit PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <style>
+    .options-container {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      background: #222;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .options-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .options-container input[type="number"],
+    .options-container input[type="text"],
+    .options-container select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Edit PDF</h1>
+      <p>Add custom text to your PDF pages.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Upload your PDF to start editing.</p>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+        <label for="fileInput" class="file-label">Choose PDF</label>
+      </div>
+      <div id="optionsContainer" class="options-container">
+        <p style="color: #10b981; margin-bottom: 15px" id="fileNameDisplay"></p>
+        <label for="editText">Text to Add:</label>
+        <input id="editText" placeholder="Enter your text here..." />
+        <div class="grid-2">
+          <div>
+            <label for="pageSelect">Page Number:</label>
+            <input type="number" id="pageSelect" value="1" min="1" />
+          </div>
+          <div>
+            <label for="textColor">Text Color:</label>
+            <select id="textColor">
+              <option value="0,0,0">Black</option>
+              <option value="1,0,0">Red</option>
+              <option value="0,0,1">Blue</option>
+              <option value="0,1,0">Green</option>
+            </select>
+          </div>
+          <div>
+            <label for="posX">X Position (from left):</label>
+            <input type="number" id="posX" value="50" />
+          </div>
+          <div>
+            <label for="posY">Y Position (from bottom):</label>
+            <input type="number" id="posY" value="50" />
+          </div>
+          <div>
+            <label for="textSize">Text Size:</label>
+            <input type="number" id="textSize" value="24" min="8" />
+          </div>
+        </div>
+      </div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Apply Edits
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Edit PDF Tool?</h2>
+      <p>
+        The <strong>Edit PDF</strong> is a free online utility designed to help
+        you add text, shapes, and images to your pdf. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Edit PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Edit PDF</h2>
+      <p>
+        Using our <strong>Edit PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Edit PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Edit PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const fileInput = document.getElementById("fileInput"),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg"),
+      optionsContainer = document.getElementById("optionsContainer"),
+      fileNameDisplay = document.getElementById("fileNameDisplay");
+    let currentFile = null;
+    (fileInput.addEventListener("change", (e) => {
+      e.target.files.length > 0 &&
+        ((currentFile = e.target.files[0]),
+        (fileNameDisplay.textContent = "Selected: " + currentFile.name),
+        (optionsContainer.style.display = "block"),
+        (actionBtn.style.display = "inline-block"));
+    }),
+      actionBtn.addEventListener("click", async () => {
+        if (!currentFile) return;
+        const e = document.getElementById("editText").value;
+        if (!e)
+          return (
+            (statusMsg.textContent = "Please enter some text to add."),
+            void (statusMsg.style.color = "#ef4444")
+          );
+        ((statusMsg.textContent = "Applying edits... Please wait."),
+          (statusMsg.style.color = "var(--text-color)"),
+          (actionBtn.disabled = !0));
+        try {
+          const t = parseInt(document.getElementById("pageSelect").value) || 1,
+            n = parseInt(document.getElementById("posX").value) || 50,
+            a = parseInt(document.getElementById("posY").value) || 50,
+            l = parseInt(document.getElementById("textSize").value) || 24,
+            s = document.getElementById("textColor").value.split(","),
+            { PDFDocument: o, rgb: i, StandardFonts: r } = PDFLib,
+            c = await currentFile.arrayBuffer(),
+            d = await o.load(c),
+            u = await d.embedFont(r.Helvetica),
+            m = d.getPages();
+          if (t < 1 || t > m.length) throw new Error("Invalid page number.");
+          m[t - 1].drawText(e, {
+            x: n,
+            y: a,
+            size: l,
+            font: u,
+            color: i(parseFloat(s[0]), parseFloat(s[1]), parseFloat(s[2])),
+          });
+          const g = await d.save(),
+            y = new Blob([g], { type: "application/pdf" }),
+            p = document.createElement("a");
+          ((p.href = URL.createObjectURL(y)),
+            (p.download = "edited_" + currentFile.name),
+            p.click(),
+            (statusMsg.textContent = "PDF Edited successfully!"),
+            (statusMsg.style.color = "#10b981"));
+        } catch (e) {
+          (console.error(e),
+            (statusMsg.textContent = "Error: " + e.message),
+            (statusMsg.style.color = "#ef4444"));
+        } finally {
+          actionBtn.disabled = !1;
+        }
+      }));
+  </script>
+</html>

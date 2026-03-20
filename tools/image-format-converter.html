@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert between various image formats. Free, fast, and secure online Image Format Converter tool. No installation or registration required."
+  /><title>Image Format Converter - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Image Format Converter</h1>
+      <p>Convert images between various formats (JPG, PNG, WebP).</p>
+    </div>
+    
+    <div class="tool-container">
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+        style="display: none"
+      />
+      <button
+        class="btn"
+        onclick="document.getElementById('fileInput').click()"
+      >
+        Select Image
+      </button>
+      <div
+        id="convertControls"
+        class="action-btn-wrapper"
+        style="display: none"
+      >
+        <div class="form-group">
+          <label>Convert To:</label>
+          <select id="formatSelect" class="form-control">
+            <option value="image/jpeg">JPG / JPEG</option>
+            <option value="image/png">PNG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </div>
+        <button id="convertBtn" class="btn btn-block">Convert Image</button>
+      </div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <img
+          id="preview"
+          style="
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 14px;
+            margin-bottom: 1rem;
+            box-shadow: var(--glass-shadow);
+          "
+        /><br /><a
+          id="downloadBtn"
+          class="btn"
+          style="background-color: #10b981; width: 100%"
+          >Download Converted Image</a
+        >
+      </div>
+      <p id="statusMsg" style="margin-top: 1rem; color: var(--text-light)"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Image Format Converter Tool?</h2>
+      <p>
+        The <strong>Image Format Converter</strong> is a free online utility
+        designed to help you convert between various image formats. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Image Format Converter provides a
+        reliable and secure solution.
+      </p>
+      <h2>How to Use Image Format Converter</h2>
+      <p>
+        Using our <strong>Image Format Converter</strong> is incredibly simple.
+        Just follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Image Format Converter?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Image Format Converter</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let currentImg = new Image(),
+      originalFileName = "image";
+    (document.getElementById("fileInput").addEventListener("change", (e) => {
+      const t = e.target.files[0];
+      if (!t) return;
+      originalFileName = t.name.replace(/\.[^/.]+$/, "");
+      const n = new FileReader();
+      ((n.onload = (e) => {
+        ((currentImg.onload = () => {
+          ((document.getElementById("convertControls").style.display = "block"),
+            (document.getElementById("result").style.display = "none"),
+            (document.getElementById("statusMsg").textContent = ""));
+        }),
+          (currentImg.src = e.target.result));
+      }),
+        n.readAsDataURL(t));
+    }),
+      document.getElementById("convertBtn").addEventListener("click", () => {
+        const e = document.getElementById("formatSelect").value,
+          t =
+            originalFileName +
+            ("image/jpeg" === e
+              ? ".jpg"
+              : "image/png" === e
+                ? ".png"
+                : ".webp"),
+          n = document.createElement("canvas");
+        ((n.width = currentImg.width), (n.height = currentImg.height));
+        const l = n.getContext("2d");
+        ("image/jpeg" === e &&
+          ((l.fillStyle = "#FFFFFF"), l.fillRect(0, 0, n.width, n.height)),
+          l.drawImage(currentImg, 0, 0));
+        const d = n.toDataURL(e, 0.9);
+        ((document.getElementById("preview").src = d),
+          (document.getElementById("downloadBtn").href = d),
+          (document.getElementById("downloadBtn").download = t),
+          (document.getElementById("result").style.display = "block"),
+          (document.getElementById("statusMsg").textContent =
+            "Conversion complete!"),
+          (document.getElementById("statusMsg").className =
+            "status-msg success"));
+      }));
+  </script>
+</html>

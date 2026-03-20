@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Estimate your loan payments and interest. Free, fast, and secure online Loan Calculator tool. No installation or registration required."
+  /><title>Loan Calculator - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Loan Calculator</h1>
+      <p>Estimate your loan payments and interest.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <label>Loan Amount:</label>
+        <input
+          type="number"
+          id="amount"
+          class="form-control"
+          placeholder="e.g. 50000"
+        />
+      </div>
+      <div class="form-group">
+        <label>Interest Rate (%):</label>
+        <input
+          type="number"
+          id="rate"
+          class="form-control"
+          placeholder="e.g. 5.5"
+          step="0.1"
+        />
+      </div>
+      <div class="form-group">
+        <label>Loan Term (Years):</label>
+        <input
+          type="number"
+          id="years"
+          class="form-control"
+          placeholder="e.g. 5"
+        />
+      </div>
+      <button id="calcBtn" class="btn btn-block">Calculate</button>
+      <p
+        id="statusMsg"
+        style="color: #ff453a; text-align: center; margin-top: 1rem"
+      ></p>
+      <div
+        class="result-section"
+        id="result"
+        style="display: none; text-align: center"
+      >
+        <h2
+          style="
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+          "
+          id="monthlyVal"
+        >
+          0
+        </h2>
+        <p>Total Payment: <strong id="totalVal">0</strong></p>
+        <p>Total Interest: <strong id="interestVal">0</strong></p>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Loan Calculator Tool?</h2>
+      <p>
+        The <strong>Loan Calculator</strong> is a free online utility designed
+        to help you estimate your loan payments and interest. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Loan Calculator provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use Loan Calculator</h2>
+      <p>
+        Using our <strong>Loan Calculator</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Loan Calculator?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Loan Calculator</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      document.getElementById("statusMsg").textContent = "";
+      const t = parseFloat(document.getElementById("amount").value),
+        e = parseFloat(document.getElementById("rate").value) / 100 / 12,
+        n = 12 * parseFloat(document.getElementById("years").value);
+      if (!t || !e || !n)
+        return void (document.getElementById("statusMsg").textContent =
+          "Please enter valid numbers");
+      const l = Math.pow(1 + e, n),
+        o = (t * l * e) / (l - 1);
+      isFinite(o) &&
+        ((document.getElementById("monthlyVal").textContent =
+          `Monthly Payment: $${o.toFixed(2)}`),
+        (document.getElementById("totalVal").textContent =
+          "$" + (o * n).toFixed(2)),
+        (document.getElementById("interestVal").textContent =
+          "$" + (o * n - t).toFixed(2)),
+        (document.getElementById("result").style.display = "block"));
+    });
+  </script>
+</html>

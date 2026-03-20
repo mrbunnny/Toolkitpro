@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Stamp an image or text over your PDF. Free, fast, and secure online Add Watermark tool. No installation or registration required."
+  /><title>Add Watermark - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <style>
+    .options-container {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      background: #222;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .options-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .options-container input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Add Watermark</h1>
+      <p>Stamp an image or text over your PDF.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Upload your PDF to add a text watermark.</p>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+        <label for="fileInput" class="file-label">Choose PDF</label>
+      </div>
+      <div id="optionsContainer" class="options-container">
+        <label for="watermarkText">Watermark Text:</label>
+        <input
+          id="watermarkText"
+          placeholder="e.g., CONFIDENTIAL"
+          value="CONFIDENTIAL"
+        />
+      </div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Add Watermark
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Add Watermark Tool?</h2>
+      <p>
+        The <strong>Add Watermark</strong> is a free online utility designed to
+        help you stamp an image or text over your pdf. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Add Watermark provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Add Watermark</h2>
+      <p>
+        Using our <strong>Add Watermark</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Add Watermark?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Add Watermark</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const fileInput = document.getElementById("fileInput"),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg"),
+      optionsContainer = document.getElementById("optionsContainer"),
+      watermarkTextInput = document.getElementById("watermarkText");
+    let currentPdfBytes = null;
+    (fileInput.addEventListener("change", async (t) => {
+      if (t.target.files.length > 0) {
+        const e = t.target.files[0];
+        ((statusMsg.textContent = "Loading PDF..."),
+          (statusMsg.style.color = "#f59e0b"));
+        try {
+          ((currentPdfBytes = await e.arrayBuffer()),
+            (optionsContainer.style.display = "block"),
+            (actionBtn.style.display = "inline-block"),
+            (statusMsg.textContent =
+              "PDF loaded. Enter watermark text and click Add Watermark."),
+            (statusMsg.style.color = "#10b981"));
+        } catch (t) {
+          (console.error(t),
+            (statusMsg.textContent = "Error loading PDF."),
+            (statusMsg.style.color = "#ef4444"));
+        }
+      }
+    }),
+      actionBtn.addEventListener("click", async () => {
+        if (!currentPdfBytes) return;
+        const t = watermarkTextInput.value.trim();
+        if (!t)
+          return (
+            (statusMsg.textContent = "Please enter watermark text."),
+            void (statusMsg.style.color = "#ef4444")
+          );
+        ((statusMsg.textContent = "Adding watermark..."),
+          (statusMsg.style.color = "#f59e0b"),
+          (actionBtn.disabled = !0));
+        try {
+          const e = await PDFLib.PDFDocument.load(currentPdfBytes),
+            { degrees: n, rgb: a, StandardFonts: s } = PDFLib,
+            o = await e.embedFont(s.Helvetica);
+          e.getPages().forEach((e) => {
+            const { width: s, height: r } = e.getSize();
+            e.drawText(t, {
+              x: s / 2 - (60 * t.length) / 4,
+              y: r / 2 - 30,
+              size: 60,
+              font: o,
+              color: a(0.5, 0.5, 0.5),
+              opacity: 0.3,
+              rotate: n(45),
+            });
+          });
+          const r = await e.save(),
+            c = new Blob([r], { type: "application/pdf" }),
+            d = URL.createObjectURL(c),
+            l = document.createElement("a");
+          ((l.href = d),
+            (l.download = "watermarked_document.pdf"),
+            document.body.appendChild(l),
+            l.click(),
+            document.body.removeChild(l),
+            URL.revokeObjectURL(d),
+            (statusMsg.textContent =
+              "Watermark added and PDF downloaded successfully!"),
+            (statusMsg.style.color = "#10b981"));
+        } catch (t) {
+          (console.error(t),
+            (statusMsg.textContent = "Error processing PDF."),
+            (statusMsg.style.color = "#ef4444"));
+        } finally {
+          actionBtn.disabled = !1;
+        }
+      }));
+  </script>
+</html>

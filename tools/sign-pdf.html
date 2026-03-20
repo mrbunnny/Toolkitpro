@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Add your electronic signature to a PDF. Free, fast, and secure online Sign PDF tool. No installation or registration required."
+  /><title>Sign PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <style>
+    .options-container {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      background: #222;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .options-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .file-label-small {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #333;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .file-label-small:hover {
+      background: #444;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Sign PDF</h1>
+      <p>Add your electronic signature to a PDF.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Upload your PDF to start.</p>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+        <label for="fileInput" class="file-label">Choose PDF</label>
+      </div>
+      <div id="optionsContainer" class="options-container">
+        <label>Upload Signature Image (PNG/JPG):</label>
+        <input
+          type="file"
+          id="sigInput"
+          accept="image/png, image/jpeg"
+          style="display: none"
+        />
+        <label for="sigInput" class="file-label-small">Choose Image</label>
+        <p
+          id="sigFileName"
+          style="color: #10b981; font-size: 0.9rem; margin-bottom: 15px"
+        ></p>
+        <label for="pageSelect">Page to Sign:</label>
+        <select
+          id="pageSelect"
+          style="
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #111;
+            color: #fff;
+            margin-bottom: 15px;
+          "
+        >
+          <option value="first">First Page</option>
+          <option value="last">Last Page</option>
+          <option value="all">All Pages</option>
+        </select>
+      </div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Sign PDF
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Sign PDF Tool?</h2>
+      <p>
+        The <strong>Sign PDF</strong> is a free online utility designed to help
+        you add your electronic signature to a pdf. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Sign PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Sign PDF</h2>
+      <p>
+        Using our <strong>Sign PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Sign PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Sign PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const fileInput = document.getElementById("fileInput"),
+      sigInput = document.getElementById("sigInput"),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg"),
+      optionsContainer = document.getElementById("optionsContainer"),
+      sigFileName = document.getElementById("sigFileName"),
+      pageSelect = document.getElementById("pageSelect");
+    let pdfFile = null,
+      sigFile = null;
+    function checkReady() {
+      actionBtn.style.display = pdfFile && sigFile ? "inline-block" : "none";
+    }
+    (fileInput.addEventListener("change", (e) => {
+      e.target.files.length > 0 &&
+        ((pdfFile = e.target.files[0]),
+        (optionsContainer.style.display = "block"),
+        checkReady());
+    }),
+      sigInput.addEventListener("change", (e) => {
+        e.target.files.length > 0 &&
+          ((sigFile = e.target.files[0]),
+          (sigFileName.textContent = "Signature selected: " + sigFile.name),
+          checkReady());
+      }),
+      actionBtn.addEventListener("click", async () => {
+        if (pdfFile && sigFile) {
+          ((statusMsg.textContent = "Signing PDF... Please wait."),
+            (statusMsg.style.color = "var(--text-color)"),
+            (actionBtn.disabled = !0));
+          try {
+            const { PDFDocument: e } = PDFLib,
+              t = await pdfFile.arrayBuffer(),
+              n = await e.load(t),
+              i = await sigFile.arrayBuffer();
+            let a;
+            if ("image/png" === sigFile.type) a = await n.embedPng(i);
+            else {
+              if ("image/jpeg" !== sigFile.type)
+                throw new Error(
+                  "Unsupported image format. Please use PNG or JPG.",
+                );
+              a = await n.embedJpg(i);
+            }
+            const s = 200,
+              l = a.scale(1);
+            let o = l.width,
+              g = l.height;
+            if (o > s) {
+              const e = s / o;
+              ((o *= e), (g *= e));
+            }
+            const c = n.getPages(),
+              d = pageSelect.value;
+            let r = [];
+            ("first" === d
+              ? r.push(c[0])
+              : "last" === d
+                ? r.push(c[c.length - 1])
+                : "all" === d && (r = c),
+              r.forEach((e) => {
+                const { width: t, height: n } = e.getSize();
+                e.drawImage(a, { x: t - o - 50, y: 50, width: o, height: g });
+              }));
+            const u = await n.save(),
+              p = new Blob([u], { type: "application/pdf" }),
+              f = document.createElement("a");
+            ((f.href = URL.createObjectURL(p)),
+              (f.download = "signed_" + pdfFile.name),
+              f.click(),
+              (statusMsg.textContent = "PDF Signed successfully!"),
+              (statusMsg.style.color = "#10b981"));
+          } catch (e) {
+            (console.error(e),
+              (statusMsg.textContent = "Error: " + e.message),
+              (statusMsg.style.color = "#ef4444"));
+          } finally {
+            actionBtn.disabled = !1;
+          }
+        }
+      }));
+  </script>
+</html>

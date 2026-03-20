@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Combine multiple PDFs into a single file. Free, fast, and secure online Merge PDF tool. No installation or registration required."
+  /><title>Merge PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Merge PDF</h1>
+      <p>Combine multiple PDFs into a single file.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">
+          Select multiple PDF files to merge them together.
+        </p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf"
+          multiple="multiple"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select PDF Files
+        </button>
+      </div>
+      <div
+        id="fileList"
+        style="margin: 1rem 0; text-align: left; color: var(--text-color)"
+      ></div>
+      <button
+        id="mergeBtn"
+        class="btn btn-block"
+        style="display: none; margin-bottom: 1rem"
+      >
+        Merge PDFs
+      </button>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <a id="downloadBtn" class="btn">Download Merged PDF</a>
+      </div>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Merge PDF Tool?</h2>
+      <p>
+        The <strong>Merge PDF</strong> is a free online utility designed to help
+        you combine multiple pdfs into a single file. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Merge PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Merge PDF</h2>
+      <p>
+        Using our <strong>Merge PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Merge PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Merge PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let selectedFiles = [];
+    (document.getElementById("fileInput").addEventListener("change", (e) => {
+      selectedFiles = Array.from(e.target.files);
+      const t = document.getElementById("fileList");
+      if (((t.innerHTML = ""), selectedFiles.length > 0)) {
+        let e = "<ul>";
+        (selectedFiles.forEach(
+          (t) => (e += `<li style="margin-bottom: 0.5rem;">${t.name}</li>`),
+        ),
+          (e += "</ul>"),
+          (t.innerHTML = e),
+          (document.getElementById("mergeBtn").style.display = "block"),
+          (document.getElementById("result").style.display = "none"),
+          (document.getElementById("statusMsg").textContent = ""));
+      }
+    }),
+      document
+        .getElementById("mergeBtn")
+        .addEventListener("click", async () => {
+          if (selectedFiles.length < 2)
+            document.getElementById("statusMsg").textContent =
+              "Please select at least 2 PDF files to merge.";
+          else {
+            ((document.getElementById("statusMsg").textContent =
+              "Merging... Please wait."),
+              (document.getElementById("statusMsg").className = "status-msg"));
+            try {
+              const { PDFDocument: e } = PDFLib,
+                t = await e.create();
+              for (const s of selectedFiles) {
+                const n = await s.arrayBuffer(),
+                  l = await e.load(n);
+                (await t.copyPages(l, l.getPageIndices())).forEach((e) =>
+                  t.addPage(e),
+                );
+              }
+              const s = await t.save(),
+                n = new Blob([s], { type: "application/pdf" }),
+                l = URL.createObjectURL(n),
+                a = document.getElementById("downloadBtn");
+              ((a.href = l),
+                (a.download = "merged_document.pdf"),
+                (document.getElementById("result").style.display = "block"),
+                (document.getElementById("statusMsg").textContent =
+                  "Merged successfully!"),
+                (document.getElementById("statusMsg").className =
+                  "status-msg success"));
+            } catch (e) {
+              (console.error(e),
+                (document.getElementById("statusMsg").textContent =
+                  "Error merging PDFs. Ensure they are valid, unencrypted PDF files."),
+                (document.getElementById("statusMsg").className =
+                  "status-msg error"));
+            }
+          }
+        }));
+  </script>
+</html>

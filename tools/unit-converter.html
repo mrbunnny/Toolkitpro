@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert length, weight, temperature, and more. Free, fast, and secure online Unit Converter tool. No installation or registration required."
+  /><title>Unit Converter - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Unit Converter</h1>
+      <p>Convert length, weight, and temperature.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <label>Category:</label>
+        <select id="category" class="form-control" onchange="updateUnits()">
+          <option value="length">Length</option>
+          <option value="weight">Weight</option>
+          <option value="temp">Temperature</option>
+        </select>
+      </div>
+      <div
+        style="
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          margin-bottom: 1rem;
+        "
+      >
+        <input
+          type="number"
+          id="inputValue"
+          class="form-control"
+          value="1"
+          oninput="convert()"
+        />
+        <select
+          id="fromUnit"
+          class="form-control"
+          onchange="convert()"
+        ></select>
+      </div>
+      <div
+        style="
+          text-align: center;
+          font-size: 1.5rem;
+          color: var(--text-light);
+          margin-bottom: 1rem;
+        "
+      >
+        =
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center">
+        <input id="outputValue" class="form-control" readonly="readonly" />
+        <select id="toUnit" class="form-control" onchange="convert()"></select>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Unit Converter Tool?</h2>
+      <p>
+        The <strong>Unit Converter</strong> is a free online utility designed to
+        help you convert length, weight, temperature, and more. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Unit Converter provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use Unit Converter</h2>
+      <p>
+        Using our <strong>Unit Converter</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Unit Converter?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Unit Converter</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const units = {
+        length: {
+          m: 1,
+          km: 1e3,
+          cm: 0.01,
+          mm: 0.001,
+          in: 0.0254,
+          ft: 0.3048,
+          mi: 1609.34,
+        },
+        weight: { kg: 1, g: 0.001, mg: 1e-6, lb: 0.453592, oz: 0.0283495 },
+      },
+      unitNames = {
+        length: {
+          m: "Meters",
+          km: "Kilometers",
+          cm: "Centimeters",
+          mm: "Millimeters",
+          in: "Inches",
+          ft: "Feet",
+          mi: "Miles",
+        },
+        weight: {
+          kg: "Kilograms",
+          g: "Grams",
+          mg: "Milligrams",
+          lb: "Pounds",
+          oz: "Ounces",
+        },
+        temp: { c: "Celsius", f: "Fahrenheit", k: "Kelvin" },
+      };
+    function updateUnits() {
+      const e = document.getElementById("category").value,
+        t = document.getElementById("fromUnit"),
+        n = document.getElementById("toUnit");
+      ((t.innerHTML = ""), (n.innerHTML = ""));
+      for (let i in unitNames[e])
+        (t.add(new Option(unitNames[e][i], i)),
+          n.add(new Option(unitNames[e][i], i)));
+      (n.options.length > 1 && (n.selectedIndex = 1), convert());
+    }
+    function convert() {
+      const e = document.getElementById("category").value,
+        t = parseFloat(document.getElementById("inputValue").value),
+        n = document.getElementById("fromUnit").value,
+        i = document.getElementById("toUnit").value,
+        m = document.getElementById("outputValue");
+      if (isNaN(t)) return (m.value = "");
+      if ("temp" === e) {
+        let e, l;
+        ("c" === n
+          ? (e = t)
+          : "f" === n
+            ? (e = (5 * (t - 32)) / 9)
+            : "k" === n && (e = t - 273.15),
+          "c" === i
+            ? (l = e)
+            : "f" === i
+              ? (l = (9 * e) / 5 + 32)
+              : "k" === i && (l = e + 273.15),
+          (m.value = l.toFixed(4).replace(/\.0000$/, "")));
+      } else {
+        const l = (t * units[e][n]) / units[e][i];
+        m.value = l.toFixed(6).replace(/\.?0+$/, "");
+      }
+    }
+    updateUnits();
+  </script>
+</html>

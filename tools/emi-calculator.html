@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Calculate your Equated Monthly Installment (EMI). Free, fast, and secure online EMI Calculator tool. No installation or registration required."
+  /><title>EMI Calculator - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>EMI Calculator</h1>
+      <p>Calculate your Equated Monthly Installment.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <label>Loan Amount (Principal):</label>
+        <input
+          type="number"
+          id="principal"
+          class="form-control"
+          placeholder="e.g. 100000"
+        />
+      </div>
+      <div class="form-group">
+        <label>Interest Rate (% per annum):</label>
+        <input
+          type="number"
+          id="rate"
+          class="form-control"
+          placeholder="e.g. 10.5"
+          step="0.1"
+        />
+      </div>
+      <div class="form-group">
+        <label>Loan Tenure (in months):</label>
+        <input
+          type="number"
+          id="tenure"
+          class="form-control"
+          placeholder="e.g. 24"
+        />
+      </div>
+      <button id="calcBtn" class="btn btn-block">Calculate EMI</button>
+      <p
+        id="statusMsg"
+        style="color: #ff453a; text-align: center; margin-top: 1rem"
+      ></p>
+      <div
+        class="result-section"
+        id="result"
+        style="display: none; text-align: center"
+      >
+        <h2
+          style="
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+          "
+          id="emiVal"
+        >
+          0
+        </h2>
+        <p>Total Interest: <strong id="interestVal">0</strong></p>
+        <p>Total Payment: <strong id="totalVal">0</strong></p>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the EMI Calculator Tool?</h2>
+      <p>
+        The <strong>EMI Calculator</strong> is a free online utility designed to
+        help you calculate your equated monthly installment (emi). With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our EMI Calculator provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use EMI Calculator</h2>
+      <p>
+        Using our <strong>EMI Calculator</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our EMI Calculator?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>EMI Calculator</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      document.getElementById("statusMsg").textContent = "";
+      const t = parseFloat(document.getElementById("principal").value),
+        e = parseFloat(document.getElementById("rate").value) / 12 / 100,
+        n = parseFloat(document.getElementById("tenure").value);
+      if (!t || !e || !n)
+        return void (document.getElementById("statusMsg").textContent =
+          "Please enter valid numbers");
+      const l = (t * e * Math.pow(1 + e, n)) / (Math.pow(1 + e, n) - 1),
+        d = l * n,
+        o = d - t;
+      ((document.getElementById("emiVal").textContent = `EMI: ${l.toFixed(2)}`),
+        (document.getElementById("interestVal").textContent = o.toFixed(2)),
+        (document.getElementById("totalVal").textContent = d.toFixed(2)),
+        (document.getElementById("result").style.display = "block"));
+    });
+  </script>
+</html>

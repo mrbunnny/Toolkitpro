@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Sort lines of text alphabetically or numerically. Free, fast, and secure online Text Sorter tool. No installation or registration required."
+  /><title>Text Sorter - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Text Sorter</h1>
+      <p>Sort lines of text alphabetically or numerically.</p>
+    </div>
+    
+    <div class="tool-container">
+      <textarea
+        id="textInput"
+        class="form-control"
+        placeholder="Paste your text here..."
+        rows="10"
+      ></textarea>
+      <div style="margin: 1rem 0; display: flex; gap: 1rem; flex-wrap: wrap">
+        <button class="btn" onclick="sortText('asc')">Sort A-Z</button>
+        <button class="btn" onclick="sortText('desc')">Sort Z-A</button>
+        <button class="btn" onclick="sortText('length')">Sort by Length</button>
+        <button
+          class="btn copy-btn"
+          data-target="textInput"
+          style="background-color: #10b981"
+        >
+          Copy
+        </button>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Text Sorter Tool?</h2>
+      <p>
+        The <strong>Text Sorter</strong> is a free online utility designed to
+        help you sort lines of text alphabetically or numerically. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Text Sorter provides a reliable and
+        secure solution.
+      </p>
+      <h2>How to Use Text Sorter</h2>
+      <p>
+        Using our <strong>Text Sorter</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Text Sorter?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Text Sorter</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    function sortText(t) {
+      const e = document.getElementById("textInput");
+      let l = e.value.split("\n");
+      ("asc" === t && l.sort((t, e) => t.localeCompare(e)),
+        "desc" === t && l.sort((t, e) => e.localeCompare(t)),
+        "length" === t && l.sort((t, e) => t.length - e.length),
+        (e.value = l.join("\n")));
+    }
+  </script>
+</html>

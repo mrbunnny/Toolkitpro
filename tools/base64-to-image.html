@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Decode Base64 strings back into images. Free, fast, and secure online Base64 to Image tool. No installation or registration required."
+  /><title>Base64 to Image - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Base64 to Image</h1>
+      <p>Decode Base64 strings back into images.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <label>Base64 String (with or without data:image/...):</label>
+        <textarea
+          id="base64Input"
+          class="form-control"
+          rows="6"
+          placeholder="Paste Base64 string here..."
+        ></textarea>
+      </div>
+      <button id="convertBtn" class="btn btn-block">Convert to Image</button>
+      <div
+        id="result"
+        style="display: none; text-align: center; margin-top: 2rem"
+      >
+        <img
+          id="preview"
+          style="
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+          "
+        /><br /><a
+          id="downloadBtn"
+          class="btn"
+          style="background-color: #10b981"
+          download="image.png"
+          >Download Image</a
+        >
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Base64 to Image Tool?</h2>
+      <p>
+        The <strong>Base64 to Image</strong> is a free online utility designed
+        to help you decode base64 strings back into images. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Base64 to Image provides a reliable and secure
+        solution.
+      </p>
+      <h2>How to Use Base64 to Image</h2>
+      <p>
+        Using our <strong>Base64 to Image</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Base64 to Image?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Base64 to Image</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    document.getElementById("convertBtn").addEventListener("click", () => {
+      let e = document.getElementById("base64Input").value.trim();
+      e &&
+        (e.startsWith("data:image") || (e = "data:image/png;base64," + e),
+        (document.getElementById("preview").src = e),
+        (document.getElementById("downloadBtn").href = e),
+        (document.getElementById("result").style.display = "block"));
+    });
+  </script>
+</html>

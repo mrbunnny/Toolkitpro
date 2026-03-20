@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Capture document scans directly to PDF. Free, fast, and secure online Scan to PDF tool. No installation or registration required."
+  /><title>Scan to PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <style>
+    #cameraContainer {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+    #videoElement {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      background: #000;
+    }
+    #canvasElement {
+      display: none;
+    }
+    .scanned-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .scanned-images img {
+      width: 100px;
+      height: 140px;
+      object-fit: cover;
+      border: 1px solid #444;
+      border-radius: 4px;
+    }
+    .controls {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+  </style>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Scan to PDF</h1>
+      <p>Use your camera to scan documents and save as PDF.</p>
+    </div>
+    
+    <div class="tool-container">
+      <button id="startCameraBtn" class="btn">Start Camera</button>
+      <div id="cameraContainer">
+        <video id="videoElement" autoplay playsinline></video
+        ><canvas id="canvasElement"></canvas>
+        <div class="controls">
+          <button id="captureBtn" class="btn" style="background-color: #3b82f6">
+            Capture Page
+          </button>
+          <button
+            id="stopCameraBtn"
+            class="btn"
+            style="background-color: #ef4444"
+          >
+            Stop Camera
+          </button>
+        </div>
+      </div>
+      <div id="scannedImagesContainer" class="scanned-images"></div>
+      <button
+        id="actionBtn"
+        class="primary-btn"
+        style="margin-top: 2rem; display: none"
+      >
+        Create PDF
+      </button>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Scan to PDF Tool?</h2>
+      <p>
+        The <strong>Scan to PDF</strong> is a free online utility designed to
+        help you capture document scans directly to pdf. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our Scan to PDF provides a reliable and secure solution.
+      </p>
+      <h2>How to Use Scan to PDF</h2>
+      <p>
+        Using our <strong>Scan to PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Scan to PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Scan to PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    const startCameraBtn = document.getElementById("startCameraBtn"),
+      stopCameraBtn = document.getElementById("stopCameraBtn"),
+      captureBtn = document.getElementById("captureBtn"),
+      videoElement = document.getElementById("videoElement"),
+      canvasElement = document.getElementById("canvasElement"),
+      cameraContainer = document.getElementById("cameraContainer"),
+      scannedImagesContainer = document.getElementById(
+        "scannedImagesContainer",
+      ),
+      actionBtn = document.getElementById("actionBtn"),
+      statusMsg = document.getElementById("statusMsg");
+    let stream = null,
+      capturedImages = [];
+    (startCameraBtn.addEventListener("click", async () => {
+      try {
+        ((stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+        })),
+          (videoElement.srcObject = stream),
+          (cameraContainer.style.display = "block"),
+          (startCameraBtn.style.display = "none"),
+          (statusMsg.textContent = ""));
+      } catch (e) {
+        (console.error("Error accessing camera:", e),
+          (statusMsg.textContent =
+            "Could not access camera. Please allow camera permissions."),
+          (statusMsg.style.color = "#ef4444"));
+      }
+    }),
+      stopCameraBtn.addEventListener("click", () => {
+        (stream &&
+          (stream.getTracks().forEach((e) => e.stop()),
+          (videoElement.srcObject = null)),
+          (cameraContainer.style.display = "none"),
+          (startCameraBtn.style.display = "inline-block"));
+      }),
+      captureBtn.addEventListener("click", () => {
+        if (!stream) return;
+        const e = canvasElement.getContext("2d");
+        ((canvasElement.width = videoElement.videoWidth),
+          (canvasElement.height = videoElement.videoHeight),
+          e.drawImage(
+            videoElement,
+            0,
+            0,
+            canvasElement.width,
+            canvasElement.height,
+          ));
+        const t = canvasElement.toDataURL("image/jpeg", 0.9);
+        capturedImages.push(t);
+        const a = document.createElement("img");
+        ((a.src = t),
+          scannedImagesContainer.appendChild(a),
+          (actionBtn.style.display = "inline-block"));
+      }),
+      actionBtn.addEventListener("click", async () => {
+        if (0 !== capturedImages.length) {
+          ((statusMsg.textContent = "Creating PDF... Please wait."),
+            (statusMsg.style.color = "var(--text-color)"),
+            (actionBtn.disabled = !0));
+          try {
+            const { PDFDocument: e } = PDFLib,
+              t = await e.create();
+            for (let e = 0; e < capturedImages.length; e++) {
+              const a = capturedImages[e],
+                n = await fetch(a).then((e) => e.arrayBuffer()),
+                s = await t.embedJpg(n);
+              t.addPage([s.width, s.height]).drawImage(s, {
+                x: 0,
+                y: 0,
+                width: s.width,
+                height: s.height,
+              });
+            }
+            const a = await t.save(),
+              n = new Blob([a], { type: "application/pdf" }),
+              s = document.createElement("a");
+            ((s.href = URL.createObjectURL(n)),
+              (s.download = "scanned_document.pdf"),
+              s.click(),
+              (statusMsg.textContent = "PDF Created successfully!"),
+              (statusMsg.style.color = "#10b981"));
+          } catch (e) {
+            (console.error(e),
+              (statusMsg.textContent = "Error: " + e.message),
+              (statusMsg.style.color = "#ef4444"));
+          } finally {
+            actionBtn.disabled = !1;
+          }
+        }
+      }));
+  </script>
+</html>

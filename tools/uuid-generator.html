@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Generate random v4 UUIDs instantly. Free, fast, and secure online UUID Generator tool. No installation or registration required."
+  /><title>UUID Generator - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>UUID Generator</h1>
+      <p>Generate random v4 UUIDs instantly.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div
+        id="uuidDisplay"
+        style="
+          font-family: monospace;
+          font-size: 1.5rem;
+          padding: 2rem;
+          background: var(--bg-color);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          margin-bottom: 1.5rem;
+        "
+      >
+        Click Generate
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: center">
+        <button id="genBtn" class="btn">Generate New UUID</button>
+        <button
+          class="btn copy-btn"
+          data-target="uuidDisplay"
+          style="background-color: #10b981"
+        >
+          Copy
+        </button>
+      </div>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the UUID Generator Tool?</h2>
+      <p>
+        The <strong>UUID Generator</strong> is a free online utility designed to
+        help you generate random v4 uuids instantly. With a user-friendly
+        interface, this tool ensures that you can perform your tasks quickly and
+        efficiently without the need for any complex software installations.
+        Whether you are a student, professional, or just someone looking to get
+        things done, our UUID Generator provides a reliable and secure solution.
+      </p>
+      <h2>How to Use UUID Generator</h2>
+      <p>
+        Using our <strong>UUID Generator</strong> is incredibly simple. Just
+        follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our UUID Generator?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>UUID Generator</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    function generateUUID() {
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+        /[xy]/g,
+        function (x) {
+          var e = (16 * Math.random()) | 0;
+          return ("x" == x ? e : (3 & e) | 8).toString(16);
+        },
+      );
+    }
+    (document.getElementById("genBtn").addEventListener("click", () => {
+      document.getElementById("uuidDisplay").textContent = generateUUID();
+    }),
+      (document.getElementById("uuidDisplay").textContent = generateUUID()));
+  </script>
+</html>

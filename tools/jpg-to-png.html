@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Convert JPG images to transparent PNGs. Free, fast, and secure online JPG to PNG Converter tool. No installation or registration required."
+  /><title>JPG to PNG Converter - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>JPG to PNG Converter</h1>
+      <p>Convert JPG images to PNG format instantly.</p>
+    </div>
+    
+    <div class="tool-container">
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/jpeg, image/jpg"
+        style="display: none"
+      />
+      <button
+        class="btn"
+        onclick="document.getElementById('fileInput').click()"
+      >
+        Select JPG Image
+      </button>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <img
+          id="preview"
+          style="
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 14px;
+            margin-bottom: 1rem;
+            box-shadow: var(--glass-shadow);
+          "
+        /><br /><a
+          id="downloadBtn"
+          class="btn"
+          style="background-color: #10b981; width: 100%"
+          >Download PNG Image</a
+        >
+      </div>
+      <p id="statusMsg" style="margin-top: 1rem; color: var(--text-light)"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the JPG to PNG Converter Tool?</h2>
+      <p>
+        The <strong>JPG to PNG Converter</strong> is a free online utility
+        designed to help you convert jpg images to transparent pngs. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our JPG to PNG Converter provides a reliable
+        and secure solution.
+      </p>
+      <h2>How to Use JPG to PNG Converter</h2>
+      <p>
+        Using our <strong>JPG to PNG Converter</strong> is incredibly simple.
+        Just follow these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our JPG to PNG Converter?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>JPG to PNG Converter</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    document.getElementById("fileInput").addEventListener("change", (e) => {
+      const t = e.target.files[0];
+      if (!t) return;
+      document.getElementById("statusMsg").textContent = "Converting...";
+      const n = t.name.replace(/\.[^/.]+$/, "") + ".png",
+        d = new FileReader();
+      ((d.onload = (e) => {
+        const t = new Image();
+        ((t.onload = () => {
+          const e = document.createElement("canvas");
+          ((e.width = t.width), (e.height = t.height));
+          e.getContext("2d").drawImage(t, 0, 0);
+          const d = e.toDataURL("image/png");
+          ((document.getElementById("preview").src = d),
+            (document.getElementById("downloadBtn").href = d),
+            (document.getElementById("downloadBtn").download = n),
+            (document.getElementById("result").style.display = "block"),
+            (document.getElementById("statusMsg").textContent =
+              "Conversion complete!"),
+            (document.getElementById("statusMsg").className =
+              "status-msg success"));
+        }),
+          (t.src = e.target.result));
+      }),
+        d.readAsDataURL(t));
+    });
+  </script>
+</html>

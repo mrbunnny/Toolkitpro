@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><meta
+    name="description"
+    content="Extract pages from your PDF or split it into multiple files. Free, fast, and secure online Split PDF tool. No installation or registration required."
+  /><title>Split PDF - Free Online Tool | ToolKitPro</title
+  ><link rel="stylesheet" href="../css/style.css" />
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <header>
+    <div class="nav-container">
+      <a href="../index.html" class="logo">ToolKit<span>Pro</span></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="tool-header">
+      <h1>Split PDF</h1>
+      <p>Extract a range of pages from your PDF.</p>
+    </div>
+    
+    <div class="tool-container">
+      <div class="form-group">
+        <p class="instruction">Select a PDF file to split.</p>
+        <input
+          type="file"
+          id="fileInput"
+          accept="application/pdf"
+          style="display: none"
+        />
+        <button
+          class="btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          Select PDF File
+        </button>
+      </div>
+      <div
+        id="splitControls"
+        style="display: none; margin-top: 2rem; text-align: left"
+      >
+        <p
+          id="fileNameDisplay"
+          style="margin-bottom: 1rem; text-align: center"
+        ></p>
+        <p
+          id="pageCountDisplay"
+          style="
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
+          "
+        ></p>
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem">
+          <div class="form-group" style="flex: 1">
+            <label>Start Page:</label>
+            <input
+              type="number"
+              id="startPage"
+              class="form-control"
+              min="1"
+              value="1"
+            />
+          </div>
+          <div class="form-group" style="flex: 1">
+            <label>End Page:</label>
+            <input type="number" id="endPage" class="form-control" min="1" />
+          </div>
+        </div>
+        <button id="splitBtn" class="btn btn-block">Split PDF</button>
+      </div>
+      <div id="result" class="download-btn-wrapper" style="display: none">
+        <a id="downloadBtn" class="btn">Download Extracted PDF</a>
+      </div>
+      <p id="statusMsg" class="status-msg"></p>
+    </div>
+    
+    <div class="seo-content">
+      <h2>What is the Split PDF Tool?</h2>
+      <p>
+        The <strong>Split PDF</strong> is a free online utility designed to help
+        you extract pages from your pdf or split it into multiple files. With a
+        user-friendly interface, this tool ensures that you can perform your
+        tasks quickly and efficiently without the need for any complex software
+        installations. Whether you are a student, professional, or just someone
+        looking to get things done, our Split PDF provides a reliable and secure
+        solution.
+      </p>
+      <h2>How to Use Split PDF</h2>
+      <p>
+        Using our <strong>Split PDF</strong> is incredibly simple. Just follow
+        these basic steps:
+      </p>
+      <ul>
+        <li>Select or input the required file or data into the tool.</li>
+        <li>
+          Adjust any available settings or options according to your needs.
+        </li>
+        <li>Click the primary action button to process your request.</li>
+        <li>Download or copy the final result instantly to your device.</li>
+      </ul>
+      <h2>Why Choose Our Split PDF?</h2>
+      <p>
+        There are several reasons why this is the best tool for the job. First,
+        it is completely free and accessible from any device with a web browser.
+        Second, we prioritize your privacy; all processing is done securely, and
+        we do not store your sensitive data on our servers longer than
+        necessary. Finally, the tool is optimized for speed, ensuring you get
+        your results in seconds. Experience the convenience of the
+        <strong>Split PDF</strong> today!
+      </p>
+    </div>
+    
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p class="copyright">&copy; 2026 ToolKitPro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="../js/script.js" defer="defer"></script>
+  <script>
+    let currentFile = null,
+      totalPages = 0;
+    (document
+      .getElementById("fileInput")
+      .addEventListener("change", async (t) => {
+        if (((currentFile = t.target.files[0]), currentFile)) {
+          ((document.getElementById("statusMsg").textContent =
+            "Loading PDF..."),
+            (document.getElementById("statusMsg").className = "status-msg"));
+          try {
+            const { PDFDocument: t } = PDFLib,
+              e = await currentFile.arrayBuffer(),
+              n = await t.load(e);
+            ((totalPages = n.getPageCount()),
+              (document.getElementById("fileNameDisplay").textContent =
+                "Selected: " + currentFile.name),
+              (document.getElementById("pageCountDisplay").textContent =
+                "Total Pages: " + totalPages),
+              (document.getElementById("startPage").max = totalPages),
+              (document.getElementById("endPage").max = totalPages),
+              (document.getElementById("endPage").value = totalPages),
+              (document.getElementById("splitControls").style.display =
+                "block"),
+              (document.getElementById("result").style.display = "none"),
+              (document.getElementById("statusMsg").textContent = ""));
+          } catch (t) {
+            (console.error(t),
+              (document.getElementById("statusMsg").textContent =
+                "Error loading PDF. Ensure it is valid and unencrypted."),
+              (document.getElementById("statusMsg").className =
+                "status-msg error"),
+              (document.getElementById("splitControls").style.display =
+                "none"));
+          }
+        }
+      }),
+      document
+        .getElementById("splitBtn")
+        .addEventListener("click", async () => {
+          if (!currentFile) return;
+          const t = parseInt(document.getElementById("startPage").value),
+            e = parseInt(document.getElementById("endPage").value);
+          if (isNaN(t) || isNaN(e) || t < 1 || e > totalPages || t > e)
+            return (
+              (document.getElementById("statusMsg").textContent =
+                `Please enter valid page numbers between 1 and ${totalPages}.`),
+              void (document.getElementById("statusMsg").className =
+                "status-msg error")
+            );
+          ((document.getElementById("statusMsg").textContent =
+            "Splitting... Please wait."),
+            (document.getElementById("statusMsg").className = "status-msg"));
+          try {
+            const { PDFDocument: n } = PDFLib,
+              s = await currentFile.arrayBuffer(),
+              a = await n.load(s),
+              l = await n.create(),
+              o = [];
+            for (let n = t - 1; n < e; n++) o.push(n);
+            (await l.copyPages(a, o)).forEach((t) => l.addPage(t));
+            const d = await l.save(),
+              u = new Blob([d], { type: "application/pdf" }),
+              m = URL.createObjectURL(u),
+              c = document.getElementById("downloadBtn");
+            ((c.href = m),
+              (c.download = `split_${t}_to_${e}_${currentFile.name}`),
+              (document.getElementById("result").style.display = "block"),
+              (document.getElementById("statusMsg").textContent =
+                "PDF split successfully!"),
+              (document.getElementById("statusMsg").className =
+                "status-msg success"));
+          } catch (t) {
+            (console.error(t),
+              (document.getElementById("statusMsg").textContent =
+                "Error splitting PDF."),
+              (document.getElementById("statusMsg").className =
+                "status-msg error"));
+          }
+        }));
+  </script>
+</html>
